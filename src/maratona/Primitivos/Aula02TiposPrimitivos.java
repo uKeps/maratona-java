@@ -1,4 +1,4 @@
-package maratona;
+package maratona.Primitivos;
 
 public class Aula02TiposPrimitivos {
     public static void main(String[] args) {

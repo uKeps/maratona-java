@@ -1,4 +1,4 @@
-package maratona;
+package maratona.EstCondicionais;
 
 public class Aula05EstruturasCondificonais04Exercicio {
     public static void main(String[] args) {
