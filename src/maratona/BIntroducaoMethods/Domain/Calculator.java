@@ -44,4 +44,36 @@ public class Calculator {
         System.out.println("num1: " + number1);
         System.out.println("num2: " + number2);
     }
+
+    public void sumArray(int[] numbers){
+        int sum = 0;
+        for(int num: numbers){
+            sum += num;
+        }
+        System.out.println(sum);
+    }
+
+    public void sumVarArgs(int... numbers){
+        int sum = 0;
+        for(int num: numbers){
+            sum += num;
+        }
+        System.out.println(sum);
+    }
+
+    // Desafio: criar uma calculadora que valida se o numero é primo ou nao
+    // return true se for primo, false se nao for
+
+    //desafio 2: criar uma calculadora que recebe uma lista/array
+    // e retorna a lista x2
+//    public boolean validatePrimeNumber(int number){
+//        if (number <= 1){
+//            return false;
+//        }
+//        for (int i = 2; i <= (number/2); i++){
+//            if (number % i == 0){
+//                return false;
+//            }
+//        } return true;
+// }
 }

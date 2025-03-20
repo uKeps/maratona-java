@@ -1,13 +1,11 @@
 package maratona.BIntroducaoMethods.Test;
 
-import maratona.BIntroducaoMethods.Domain.PrinterStudent;
 import maratona.BIntroducaoMethods.Domain.Student;
 
-public class StudentTest01 {
+public class StudentTest02 {
     public static void main(String[] args) {
         Student student01 = new Student();
         Student student02 = new Student();
-        PrinterStudent printer = new PrinterStudent();
 
         student01.name = "John";
         student01.age = 18;
@@ -17,8 +15,7 @@ public class StudentTest01 {
         student02.age = 19;
         student02.gender = 'F';
 
-        printer.print(student01);
-
-        printer.print(student02);
+        student01.print();
+        student02.print();
     }
 }
