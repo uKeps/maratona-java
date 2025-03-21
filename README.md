@@ -19,3 +19,8 @@ Parametro tipo reference: é passado por referencia, ou seja, se o valor for alt
 o valor da variavel fora do metodo tambem sera alterado.
 
 ![img_2.png](img_2.png)
+
+#### *Orientação Objetos - Modificadores de Acesso*
+
+Sobrecarga de metodos: é possivel criar metodos com o mesmo nome, mas com parametros diferentes.
+
