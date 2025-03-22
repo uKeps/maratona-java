@@ -1,23 +1,28 @@
-package maratona.javacore.Csobrecargametodos.domain;
+package maratona.javacore.Dconstrutores.domain;
 
 public class Anime {
     private String name;
     private String type;
     private int episodes;
     private String genre;
+    private String studio;
 
-    public Anime(){
-
-    }
-    public void init(String name, String type, int episodes){
+    public Anime(String name, String type, int episodes, String genre){
+        this();
+        System.out.println("Inside constructor");
         this.name = name;
         this.type = type;
         this.episodes = episodes;
+        this.genre = genre;
     }
 
-    public void init (String name, String type, int episodes, String genre){
-        this.init(name, type, episodes);
-        this.genre = genre;
+    public Anime(String name, String type, int episodes, String genre, String Studio){
+        this(name, type, episodes, genre);
+        this.studio = Studio;
+    }
+
+    public Anime(){
+        System.out.println("Inside constructor without parameters");
     }
 
     public void print(){
@@ -25,6 +30,7 @@ public class Anime {
         System.out.println("Type: " + this.type);
         System.out.println("Episodes: " + this.episodes);
         System.out.println("Genre: " + this.genre);
+        System.out.println("Studio: " + this.studio);
     }
 
     public void setName (String name){
