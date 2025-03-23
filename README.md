@@ -25,3 +25,6 @@ o valor da variavel fora do metodo tambem sera alterado.
 Sobrecarga de metodos: é possivel criar metodos com o mesmo nome, mas com parametros diferentes.
 O static faz o atributo pertece a classe, e todos os objetos criados a partir dela terao o mesmo valor.
 normalmente é utilizado quando nao é necessario criar um objeto para acessar o atributo.
+
+#### *Associação*
+![img_3.png](img_3.png)
