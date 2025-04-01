@@ -22,13 +22,13 @@ public class Seminary {
         }
         System.out.println("-------------Addres------------ ");
         if(location == null){
-            System.out.println("nao ha localizaçao");;
+            System.out.println("location is dead :/");;
         }else {
             System.out.println(location.getAddres());
         }
         System.out.println("---------------teacher------------- ");
         if(teacher == null){
-            System.out.println("nao ha professor aidna");
+            System.out.println("teacher is high on the fight club :)");
         }else {
             System.out.println(teacher.getName());
         }

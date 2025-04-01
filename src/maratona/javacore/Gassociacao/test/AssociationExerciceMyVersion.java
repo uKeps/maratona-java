@@ -11,7 +11,7 @@ public class AssociationExerciceMyVersion {
         Student student2 = new Student("Erik", 69);
         Student[] students = {student, student2};
         Location location = new Location("Rua tal");
-        Teacher teacher = new Teacher("clarencio professor","TI");
+        Teacher teacher = new Teacher("clarencio teacher","TI");
         Seminary seminary = new Seminary(location, "vasco", students, teacher);
         Seminary seminary2 = new Seminary(location, "gremio", students, teacher);
         Seminary[] seminaries = {seminary, seminary2};

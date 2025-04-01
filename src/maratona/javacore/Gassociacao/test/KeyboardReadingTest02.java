@@ -12,5 +12,6 @@ public class KeyboardReadingTest02 {
         }else{
             System.out.println("NO");
         } // use spacebar = yes
+        sc.close();
     }
 }

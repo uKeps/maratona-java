@@ -16,6 +16,6 @@ public class KeyboardReadingTest01 {
         System.out.println("Name " + name);
         System.out.println("Age " + age);
         System.out.println("Gender " + gender);
-
+        sc.close();
     }
 }
