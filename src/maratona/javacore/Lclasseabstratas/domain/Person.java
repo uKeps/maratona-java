@@ -1,4 +1,5 @@
 package maratona.javacore.Lclasseabstratas.domain;
 
-public class Person {
+public abstract class Person {
+    public abstract void print();
 }
