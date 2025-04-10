@@ -1,28 +1,28 @@
 package maratona.javacore.Oexception.runtime.test;
 
-public class RunTimeExceptionTest03 {
+import java.io.IOException;
+import java.sql.SQLException;
+
+public class RunTimeExceptionTest04 {
     public static void main(String[] args) {
-        openConnection();
-    }
-    private static String openConnection(){
         try {
-            System.out.println("Opening file");
-            System.out.println("Writing data on file");
-            return "connection open";
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            System.out.println("Closing resource released by SO");
+            throw new RuntimeException();
+        } catch (ArrayIndexOutOfBoundsException |IllegalArgumentException | ArithmeticException e) {
+            System.out.println("Inside the ArrayIndexOutOfBoundsException |IllegalArgumentException | ArithmeticException");
+        } catch (RuntimeException e) {
+            System.out.println("Inside the RuntimeException");
         }
-        return null;
+
+        try {
+            maybeThrowsException();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private static void openConnection2(){
-        try {
-            System.out.println("Opening file");
-            System.out.println("Writing data on file");
-        } finally {
-            System.out.println("Closing resource released by SO");
-        }
+    private static void maybeThrowsException() throws SQLException, IOException {
+
     }
 }
+

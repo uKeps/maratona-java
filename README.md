@@ -40,3 +40,6 @@ normalmente é utilizado quando nao é necessario criar um objeto para acessar o
     // 7 - Cada atributo de subclasse é criado e inicializado com seus valores default ou o que for passado
     // 8 - Bloco de inicialização da subclasse é executado na ordem em que aparece
     // 5 - Construtor da subclasse é executado
+
+#### *Exceções*
+![img_4.png](img_4.png)
