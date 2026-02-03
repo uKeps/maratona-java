@@ -3,6 +3,7 @@ package maratona.javacore.Ycolecoes.test;
 import maratona.javacore.Ycolecoes.domain.Smartphone;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SmartphoneListTest01 {
@@ -14,6 +15,7 @@ public class SmartphoneListTest01 {
         smartphones.add(s1);
         smartphones.add(s2);
         smartphones.add(0,s3);
+
 
         for(Smartphone smartphone : smartphones){
             System.out.println(smartphone);
