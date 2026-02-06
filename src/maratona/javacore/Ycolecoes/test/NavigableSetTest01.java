@@ -7,6 +7,13 @@ import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
+class MangaPrecoComparator implements  Comparator<Manga>{
+
+    @Override
+    public int compare(Manga o1, Manga o2) {
+        return Double.compare(o1.getPreco(),o2.getPreco());
+    }
+}
 
 
 class SmarthponeMarcaComparator implements Comparator<Smartphone>{
