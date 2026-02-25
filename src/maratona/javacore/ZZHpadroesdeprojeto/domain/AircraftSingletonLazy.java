@@ -1,0 +1,35 @@
+package maratona.javacore.ZZHpadroesdeprojeto.domain;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public final class AircraftSingletonLazy {
+    //Lazy initialization
+    private static AircraftSingletonLazy INSTANCE;
+    private final Set<String> availableSeats = new HashSet<>();
+    private final String name;
+
+    public static AircraftSingletonLazy getINSTANCE(){
+        if (INSTANCE == null){
+            synchronized (AircraftSingletonLazy.class){
+                if (INSTANCE == null){
+                INSTANCE = new AircraftSingletonLazy("F-14");
+                }
+            }
+        }
+        return INSTANCE;
+    }
+
+    {
+        availableSeats.add("1A");
+        availableSeats.add("1B");
+    }
+
+    private AircraftSingletonLazy(String name) {
+        this.name = name;
+    }
+
+    public boolean bookSeat(String seat){
+        return availableSeats.remove(seat);
+    }
+}
