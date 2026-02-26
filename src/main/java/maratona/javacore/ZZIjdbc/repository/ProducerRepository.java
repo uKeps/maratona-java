@@ -26,7 +26,17 @@ public class ProducerRepository {
             int rowsAffected = stmt.executeUpdate(sql);
             log.info("Deleted producer '{}' from the database, rows affected '{}'",idproducer, rowsAffected);
         } catch (SQLException e) {
-            log.error("Error while trying to insert producer '{}' in the database", idproducer, e);
+            log.error("Error while trying to delete producer '{}' in the database", idproducer, e);
+        }
+    }
+
+    public static void update(Producer producer) {
+        String sql = "UPDATE `anime_store`.`producer` SET `name` = '%s ' WHERE (`idproducer` = '%d');\n".formatted(producer.getName(), producer.getIdproducer());
+        try(Connection conn = ConnectionFactory.getConnection(); Statement stmt = conn.createStatement()) {
+            int rowsAffected = stmt.executeUpdate(sql);
+            log.info("Updated producer '{}', rows affected '{}'",producer.getIdproducer(), rowsAffected);
+        } catch (SQLException e) {
+            log.error("Error while trying to update producer '{}' in the database", producer.getIdproducer(), e);
         }
     }
 }
