@@ -1,12 +1,8 @@
 package maratona.javacore.ZZIjdbc.test;
 
 import lombok.extern.log4j.Log4j2;
-import maratona.javacore.ZZIjdbc.conn.ConnectionFactory;
 import maratona.javacore.ZZIjdbc.domain.Producer;
-import maratona.javacore.ZZIjdbc.repository.ProducerRepository;
 import maratona.javacore.ZZIjdbc.service.ProducerService;
-
-import java.util.List;
 
 
 @Log4j2
@@ -16,9 +12,10 @@ public class ConnectionFactoryTest01 {
         Producer producerToUpdate = Producer.builder().idproducer(1).name("MADHOUSE").build();
         //ProducerService.save(producer);
         //ProducerService.delete(4);
-       // ProducerService.update(producerToUpdate);
+        // ProducerService.update(producerToUpdate);
         //List<Producer> producers = ProducerService.findAll();
-        List<Producer> producers = ProducerService.findByName("mad");
-        log.info(producers);
+        //List<Producer> producers = ProducerService.findByName("mad");
+        // log.info(producers);
+        ProducerService.showProducerMetadata();
     }
 }
