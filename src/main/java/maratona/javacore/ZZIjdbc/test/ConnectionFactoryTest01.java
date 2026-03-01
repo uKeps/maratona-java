@@ -4,6 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import maratona.javacore.ZZIjdbc.domain.Producer;
 import maratona.javacore.ZZIjdbc.service.ProducerService;
 
+import java.util.List;
+
 
 @Log4j2
 public class ConnectionFactoryTest01 {
@@ -18,6 +20,8 @@ public class ConnectionFactoryTest01 {
         // log.info(producers);
         //ProducerService.showProducerMetadata();
         //ProducerService.showDriverMetadata();
-        ProducerService.showTypeScrollWorking();
+        //ProducerService.showTypeScrollWorking();
+        List<Producer> deen = ProducerService.findByNameAndUpdateToUpperCase("Deen");
+        log.info(deen);
     }
 }
