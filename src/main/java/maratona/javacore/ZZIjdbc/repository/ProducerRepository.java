@@ -172,17 +172,17 @@ public class ProducerRepository {
                     .name(rs.getString("name"))
                     .build());
 
-            log.info("Is last? '{}'", rs.isLast() );
+            log.info("Is last? '{}'", rs.isLast());
             log.info("Row number '{}'", rs.getRow());
 
-            log.info("Is first? '{}'", rs.isFirst() );
+            log.info("Is first? '{}'", rs.isFirst());
             log.info("Row number '{}'", rs.getRow());
 
             log.info("Last row? '{}'", rs.last());
             log.info("------------------");
             rs.next();
             log.info("After last row? '{}'", rs.isAfterLast());
-            while (rs.previous()){
+            while (rs.previous()) {
                 log.info(Producer
                         .builder()
                         .idproducer(rs.getInt("idproducer"))
@@ -218,5 +218,57 @@ public class ProducerRepository {
             log.error("Error while trying to find all producer", e);
         }
         return producers;
+    }
+
+    public static List<Producer> findByNameAndInsertWhenNotFound(String name) {
+        log.info("Finding producers by name and insert when not found");
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';"
+                .formatted(name);
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            if (rs.next()) return producers;
+
+            insertNewProducer(name, rs);
+
+            producers.add(getProducer(rs));
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+        return producers;
+    }
+
+    public static void findByNameAndDelete(String name) {
+        log.info("Finding producers by name and delete");
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';"
+                .formatted(name);
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                log.info("Deleting producer '{}'", rs.getString("name"));
+                rs.deleteRow();
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+    }
+
+    private static void insertNewProducer(String name, ResultSet rs) throws SQLException {
+        rs.moveToInsertRow();
+        rs.updateString("name", name);
+        rs.insertRow();
+    }
+
+    private static Producer getProducer(ResultSet rs) throws SQLException {
+        rs.beforeFirst();
+        rs.next();
+        return Producer
+                .builder()
+                .idproducer(rs.getInt("idproducer"))
+                .name(rs.getString("name"))
+                .build();
     }
 }
