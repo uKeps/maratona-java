@@ -93,7 +93,6 @@ public class ProducerRepository {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             ResultSetMetaData metaData = rs.getMetaData();
-            rs.next();
             int columnCount = metaData.getColumnCount();
             log.info("Column count '{}'", columnCount);
             for (int i = 1; i <= columnCount; i++) {
@@ -102,6 +101,95 @@ public class ProducerRepository {
                 log.info("Column size '{}'", metaData.getColumnDisplaySize(i));
                 log.info("Column type '{}'", metaData.getColumnTypeName(i));
             }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+    }
+
+    public static void showDriverMetaData() {
+        log.info("Showing driver metadata");
+        try (Connection conn = ConnectionFactory.getConnection()) {
+            DatabaseMetaData dbMetaData = conn.getMetaData();
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
+                log.info("Supports TYPE_FORWARD_ONLY");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports CONCUR_UPDATABLE");
+                }
+            }
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_INSENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_INSENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports CONCUR_UPDATABLE");
+                }
+            }
+            if (dbMetaData.supportsResultSetType(ResultSet.TYPE_SCROLL_SENSITIVE)) {
+                log.info("Supports TYPE_SCROLL_SENSITIVE");
+                if (dbMetaData.supportsResultSetConcurrency(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE)) {
+                    log.info("Supports CONCUR_UPDATABLE");
+                }
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+    }
+
+    public static void showTypeScrollWorking() {
+        String sql = "SELECT * FROM anime_store.producer;";
+        try (Connection conn = ConnectionFactory.getConnection();
+             Statement stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+
+            log.info("Last row? '{}'", rs.last());
+            log.info("Row number '{}'", rs.getRow());
+            log.info(Producer
+                    .builder()
+                    .idproducer(rs.getInt("idproducer"))
+                    .name(rs.getString("name"))
+                    .build());
+
+            log.info("Frist row? '{}'", rs.first());
+            log.info("Row number '{}'", rs.getRow());
+            log.info(Producer
+                    .builder()
+                    .idproducer(rs.getInt("idproducer"))
+                    .name(rs.getString("name"))
+                    .build());
+
+            log.info("Row Absolute? '{}'", rs.absolute(2));
+            log.info("Row number '{}'", rs.getRow());
+            log.info(Producer
+                    .builder()
+                    .idproducer(rs.getInt("idproducer"))
+                    .name(rs.getString("name"))
+                    .build());
+
+            log.info("Row Relative? '{}'", rs.relative(-1));
+            log.info("Row number '{}'", rs.getRow());
+            log.info(Producer
+                    .builder()
+                    .idproducer(rs.getInt("idproducer"))
+                    .name(rs.getString("name"))
+                    .build());
+
+            log.info("Is last? '{}'", rs.isLast() );
+            log.info("Row number '{}'", rs.getRow());
+
+            log.info("Is first? '{}'", rs.isFirst() );
+            log.info("Row number '{}'", rs.getRow());
+
+            log.info("Last row? '{}'", rs.last());
+            log.info("------------------");
+            rs.next();
+            log.info("After last row? '{}'", rs.isAfterLast());
+            while (rs.previous()){
+                log.info(Producer
+                        .builder()
+                        .idproducer(rs.getInt("idproducer"))
+                        .name(rs.getString("name"))
+                        .build());
+            }
+
         } catch (SQLException e) {
             log.error("Error while trying to find all producer", e);
         }

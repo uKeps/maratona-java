@@ -16,6 +16,8 @@ public class ConnectionFactoryTest01 {
         //List<Producer> producers = ProducerService.findAll();
         //List<Producer> producers = ProducerService.findByName("mad");
         // log.info(producers);
-        ProducerService.showProducerMetadata();
+        //ProducerService.showProducerMetadata();
+        //ProducerService.showDriverMetadata();
+        ProducerService.showTypeScrollWorking();
     }
 }
