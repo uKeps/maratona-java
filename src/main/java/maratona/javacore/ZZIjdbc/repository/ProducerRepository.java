@@ -40,6 +40,24 @@ public class ProducerRepository {
         }
     }
 
+    public static void updatePreparedStatement(Producer producer) {
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = preparedStatementUpdate(conn, producer)) {
+            int rowsAffected = ps.executeUpdate();
+            log.info("Updated producer '{}', rows affected '{}'", producer.getIdproducer(), rowsAffected);
+        } catch (SQLException e) {
+            log.error("Error while trying to update producer '{}' in the database", producer.getIdproducer(), e);
+        }
+    }
+
+    private static PreparedStatement preparedStatementUpdate(Connection conn, Producer producer) throws SQLException {
+        String sql = "UPDATE `anime_store`.`producer` SET `name` = ? WHERE (`idproducer` = ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, producer.getName());
+        ps.setInt(2, producer.getIdproducer());
+        return ps;
+    }
+
     public static List<Producer> findAll() {
         log.info("Finding all producers");
         return findByName("");
@@ -64,9 +82,8 @@ public class ProducerRepository {
     }
 
     public static List<Producer> findByName(String name) {
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';";
         log.info("Finding producers by name");
-        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';"
-                .formatted(name);
         List<Producer> producers = new ArrayList<>();
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement();
@@ -84,6 +101,34 @@ public class ProducerRepository {
             log.error("Error while trying to find all producer", e);
         }
         return producers;
+    }
+
+    public static List<Producer> findByNamePreparedStatement(String name) {
+        log.info("Finding producers by name");
+        String sql = "SELECT * FROM anime_store.producer where name like ?;";
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = preparedStatementFindByName(conn, name);
+             ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .idproducer(rs.getInt("idproducer"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+        return producers;
+    }
+
+    private static PreparedStatement preparedStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "SELECT * FROM anime_store.producer where name like '%%%s%%';";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1,String.format("%%%s%%", name));
+        return ps;
     }
 
     public static void showProducerMetaData() {
