@@ -131,6 +131,34 @@ public class ProducerRepository {
         return ps;
     }
 
+    public static List<Producer> findByNameCallableStatement(String name) {
+        log.info("Finding producers by name");
+        String sql = "SELECT * FROM anime_store.producer where name like ?;";
+        List<Producer> producers = new ArrayList<>();
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = callableStatementFindByName(conn, name);
+             ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                Producer producer = Producer
+                        .builder()
+                        .idproducer(rs.getInt("idproducer"))
+                        .name(rs.getString("name"))
+                        .build();
+                producers.add(producer);
+            }
+        } catch (SQLException e) {
+            log.error("Error while trying to find all producer", e);
+        }
+        return producers;
+    }
+
+    private static CallableStatement callableStatementFindByName(Connection conn, String name) throws SQLException {
+        String sql = "CALL `anime_store`.`sp_get_producer_by_name`(?);";
+        CallableStatement cs = conn.prepareCall(sql);
+        cs.setString(1,String.format("%%%s%%", name));
+        return cs;
+    }
+
     public static void showProducerMetaData() {
         log.info("Showing producer metadata");
         String sql = "SELECT * FROM anime_store.producer";
