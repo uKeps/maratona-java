@@ -20,6 +20,37 @@ public class ProducerRepository {
         }
     }
 
+    public static void saveTransaction(List<Producer> producers) {
+        try (Connection conn = ConnectionFactory.getConnection()) {
+            conn.setAutoCommit(false);
+            PreparedStatementSaveTransaction(conn, producers);
+            conn.commit();
+            conn.setAutoCommit(true);
+        } catch (SQLException e) {
+            log.error("Error while trying to save producers '{}' in the database", producers, e);
+        }
+    }
+
+    private static void PreparedStatementSaveTransaction(Connection conn, List<Producer> producers) throws SQLException {
+        String sql = "INSERT INTO `anime_store`.`producer` (`name`) VALUES (?);";
+        boolean shouldRollback = false;
+        for(Producer p: producers){
+            try (PreparedStatement ps = conn.prepareStatement(sql)){
+                log.info("Saving producer '{}'", p.getName());
+                ps.setString(1, p.getName());
+                //if (p.getName().equals("White Fox")) throw new SQLException("Error trying to save producer 'White Fox'");
+                ps.execute();
+            }catch (SQLException e){
+                e.printStackTrace();
+                shouldRollback = true;
+            }
+        }
+        if (shouldRollback) {
+            log.warn("Transaction is being rolled back");
+            conn.rollback();
+        }
+    }
+
     public static void delete(int idproducer) {
         String sql = "DELETE FROM `anime_store`.`producer` WHERE (`idproducer` = '%d');".formatted(idproducer);
         try (Connection conn = ConnectionFactory.getConnection(); Statement stmt = conn.createStatement()) {
