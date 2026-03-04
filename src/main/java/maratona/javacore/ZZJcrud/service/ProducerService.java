@@ -19,45 +19,50 @@ public class ProducerService {
         }
     }
 
+
     private static void findByName() {
-        System.out.println("Type the name or empty to all: ");
-        String name = SCANNER.nextLine();ProducerRepository.findByName(name)
-                .forEach(p->System.out.printf("[%d] - %s%n", p.getIdproducer(), p.getName()));
+        System.out.println("Type the name or empty to all");
+        String name = SCANNER.nextLine();
+        ProducerRepository.findByName(name)
+                .forEach(p -> System.out.printf("[%d] - %s%n", p.getId(), p.getName()));
     }
 
     private static void delete() {
-        System.out.println("Type the id of the producer you want to delete: ");
-        int idproducer = Integer.parseInt(SCANNER.nextLine());
+        System.out.println("Type the id of the producer you want to delete");
+        int id = Integer.parseInt(SCANNER.nextLine());
         System.out.println("Are you sure? Y/N");
         String choice = SCANNER.nextLine();
         if ("y".equalsIgnoreCase(choice)) {
-            ProducerRepository.delete(idproducer);
+            ProducerRepository.delete(id);
         }
     }
 
     private static void save() {
-        System.out.println("Type the name of the producer you want to save: ");
+        System.out.println("Type the name of the producer");
         String name = SCANNER.nextLine();
         Producer producer = Producer.builder().name(name).build();
         ProducerRepository.save(producer);
     }
 
-    private static void update(){
-        System.out.println("Type the id of the object you want to update: ");
+
+    private static void update() {
+        System.out.println("Type the id of the object you want to update");
         Optional<Producer> producerOptional = ProducerRepository.findById(Integer.parseInt(SCANNER.nextLine()));
-        if (producerOptional.isEmpty()){
+        if (producerOptional.isEmpty()) {
             System.out.println("Producer not found");
             return;
         }
-        Producer producerFromDB = producerOptional.get();
-        System.out.println("Producer found: " + producerFromDB);
-        System.out.println("Type the new name or enter to keep the same: ");
+        Producer producerFromDb = producerOptional.get();
+        System.out.println("Producer found " + producerFromDb);
+        System.out.println("Type the new name or enter to keep the same");
         String name = SCANNER.nextLine();
-        name = name.isEmpty() ? producerFromDB.getName() : name;
+        name = name.isEmpty() ? producerFromDb.getName() : name;
+
         Producer producerToUpdate = Producer.builder()
-                .idproducer(producerFromDB.getIdproducer())
+                .id(producerFromDb.getId())
                 .name(name)
                 .build();
+
         ProducerRepository.update(producerToUpdate);
     }
 }
